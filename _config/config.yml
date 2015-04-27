@@ -1,0 +1,10 @@
+---
+Name: multidomain
+---
+Injector:
+  RequestProcessor:
+    properties:
+      filters:
+        - '%$MultiDomainRequestFilter'
+MultiDomain:
+  allow_subdomains: false
