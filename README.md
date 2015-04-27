@@ -2,7 +2,7 @@
 Allows multiple domains to access one CMS instance, mapping them to different sections of the hierarchy, which allows for vanity URLs. Examples:
 
 * `example.com` -> resolves to home page
-* `example.com/shop/store` -> Resolves to a Store pagge
+* `example.com/shop/store` -> Resolves to a Store page
 * `example-store.com` -> Shows content for `example.com/shop/store`.
 * `example-store.com/checkout` -> Shows content for `example.com/shop/store/checkout`
 
@@ -35,7 +35,7 @@ MultiDomain:
 
 ## Why not subsites?
 
-Subsites creates a parallel CMS instance for a given domain name. This module allows you to map domains to a specific section of the hierarchy, and do all your content management in one instance.
+Subsites creates a parallel CMS instance for a given domain name. This module allows you to map domains to a specific section of the hierarchy, in the context of all your other pages.
 
 ## Why not "homepage for domain"?
 
