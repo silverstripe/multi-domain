@@ -59,9 +59,10 @@ class MultiDomainDomain extends Object {
 	 * Returns true if the domain is currently in the HTTP_HOST
 	 * @return boolean
 	 */
-	public function isActive() {
+	public function isActive() {		
 		$allow_subdomains = MultiDomain::config()->allow_subdomains;
-		$current_host = $_SERVER['HTTP_HOST'];
+		$parts = parse_url("http://".$_SERVER['HTTP_HOST']);		
+		$current_host = $parts['host'];		
 		$hostname = $this->getHostname();
 
 		return $allow_subdomains ? 
