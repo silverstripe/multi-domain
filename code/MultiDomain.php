@@ -24,12 +24,11 @@ class MultiDomain extends Object {
 	 * @param  string $url
 	 * @return MultiDomainDomain
 	 */
-	public static function domain_for_url($url) {
+	public static function domain_for_url($url) {		
 		$url = trim($url, '/');
 		
-		foreach(self::get_all_domains() as $domain) {			
-			$domainBaseURL = trim($domain->getURL(),'/');
-			if(preg_match('/^'.$domainBaseURL.'/', $url)) {
+		foreach(self::get_all_domains() as $domain) {
+			if($domain->hasURL($url)) {				
 				return $domain;
 			}
 		}

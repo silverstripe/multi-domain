@@ -27,6 +27,20 @@ class MultiDomainDomain extends Object {
 	protected $key;
 
 	/**
+	 * Paths that are allowed to be accessed on the primary domain
+	 * @var array
+	 */
+	protected $allowedPaths;
+
+	/**
+	 * Paths that are forced from the primary domain into a vanity one,
+	 * outside the resolves_to path
+	 * 
+	 * @var array
+	 */
+	protected $forcedPaths;
+
+	/**
 	 * Constructor. Takes a key for the domain and its array of settings from the config
 	 * @param string $key 
 	 * @param array $config
@@ -35,6 +49,8 @@ class MultiDomainDomain extends Object {
 		$this->key = $key;
 		$this->hostname = $config['hostname'];
 		$this->url = isset($config['resolves_to']) ? $config['resolves_to'] : null;
+		$this->allowedPaths = isset($config['allow']) ? $config['allow'] : null;
+		$this->forcedPaths = isset($config['force']) ? $config['force'] : null;
 
 		parent::__construct();
 	}
@@ -60,9 +76,13 @@ class MultiDomainDomain extends Object {
 	 * @return boolean
 	 */
 	public function isActive() {		
-		$allow_subdomains = MultiDomain::config()->allow_subdomains;
+		if($this->isAllowedPath($_SERVER['REQUEST_URI'])) {
+			return false;
+		}
+
 		$parts = parse_url("http://".$_SERVER['HTTP_HOST']);		
 		$current_host = $parts['host'];		
+		$allow_subdomains = MultiDomain::config()->allow_subdomains;
 		$hostname = $this->getHostname();
 
 		return $allow_subdomains ? 
@@ -90,6 +110,10 @@ class MultiDomainDomain extends Object {
 			throw new Exception("Cannot convert a native URL on the primary domain");		
 		}
 
+		if($this->isAllowedPath($url) || $this->isForcedPath($url)) {
+			return $url;
+		}
+
 		return Controller::join_links($this->getURL(), $url);
 	}
 
@@ -101,11 +125,63 @@ class MultiDomainDomain extends Object {
 	 * @return string
 	 */
 	public function getVanityURL($url) {
-		if($this->isPrimary()) {
+		if($this->isPrimary() || $this->isAllowedPath($url)) {
 			return $url;
 		}		
 		
 		return preg_replace('/^\/?'.$this->getURL().'\//', '', $url);
 	}
+
+	/**
+	 * Return true if this domain contains the given URL
+	 * @param  strin  $url 
+	 * @return boolean
+	 */
+	public function hasURL($url) {
+		if($this->isForcedPath($url)) return true;
+		$domainBaseURL = trim($this->getURL(),'/');
+		if(preg_match('/^'.$domainBaseURL.'/', $url)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks a given list of wildcard patterns to see if a path is allowed
+	 * @param  string  $url 
+	 * @return boolean      
+	 */
+	protected function isAllowedPath($url) {
+		return self::match_url($url, $this->allowedPaths);
+	}
+
+	/**
+	 * Checks a given list of wildcard patterns to see if a path is allowed
+	 * @param  string  $url 
+	 * @return boolean      
+	 */
+	protected function isForcedPath($url) {
+		return self::match_url($url, $this->forcedPaths);
+	}
+
+	/**
+	 * Matches a URL against a list of wildcard patterns
+	 * @param  string $url      
+	 * @param  array $patterns 
+	 * @return boolean           
+	 */
+	protected static function match_url($url, $patterns) {
+		if(!is_array($patterns)) return false;
+
+		$url = ltrim($url, '/');
+		if(substr($url, -1) !== '/') $url .= '/';
+
+		foreach($patterns as $pattern) {
+			if(fnmatch($pattern, $url)) return true;
+		}
+
+		return false;		
+	}	
 
 }

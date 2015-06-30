@@ -27,9 +27,9 @@ class MultiDomainRequestFilter implements RequestFilter {
 			if(!$domain->isActive()) continue;
 			
 			$url = $this->createNativeURLForDomain($domain);
-			$parts = explode('?', $url);			
+			$parts = explode('?', $url);					
 			$request->setURL($parts[0]);			
-		}
+		}		
 	}
 
 	/**
@@ -50,6 +50,7 @@ class MultiDomainRequestFilter implements RequestFilter {
 	 * @return string
 	 */
 	protected function createNativeURLForDomain(MultiDomainDomain $domain) {
+		die($_SERVER['REQUEST_URI']);
 		return Controller::join_links(
 			Director::baseURL(), 			
 			$domain->getNativeURL($_SERVER['REQUEST_URI'])			
