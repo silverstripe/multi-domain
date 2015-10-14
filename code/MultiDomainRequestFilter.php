@@ -18,6 +18,10 @@ class MultiDomainRequestFilter implements RequestFilter {
 	 */
 	public function preRequest(SS_HTTPRequest $request, Session $session, DataModel $model) {				
 
+		if(Director::is_cli()) {
+			return;
+		}
+		
 		// Not the best place for validation, but _config.php is too early.
 		if(!MultiDomain::get_primary_domain()) {
 			throw new Exception('MultiDomain must define a "'.MultiDomain::KEY_PRIMARY.'" domain in the config, under "domains"');
