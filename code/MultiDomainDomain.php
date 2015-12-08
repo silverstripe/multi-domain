@@ -80,8 +80,7 @@ class MultiDomainDomain extends Object {
 			return false;
 		}
 
-		$parts = parse_url("http://".$_SERVER['HTTP_HOST']);		
-		$current_host = $parts['host'];		
+		$current_host = $_SERVER['HTTP_HOST'];
 		$allow_subdomains = MultiDomain::config()->allow_subdomains;
 		$hostname = $this->getHostname();
 
