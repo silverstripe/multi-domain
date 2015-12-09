@@ -49,8 +49,13 @@ class MultiDomainDomain extends Object {
 		$this->key = $key;
 		$this->hostname = $config['hostname'];
 		$this->url = isset($config['resolves_to']) ? $config['resolves_to'] : null;
-		$this->allowedPaths = isset($config['allow']) ? $config['allow'] : null;
-		$this->forcedPaths = isset($config['force']) ? $config['force'] : null;
+
+		$globalAllowed = (array) Config::inst()->get('MultiDomain','allow');
+		$globalForced = (array) Config::inst()->get('MultiDomain','force');
+		$myAllowed = isset($config['allow']) ? $config['allow'] : array ();
+		$myForced = isset($config['force']) ? $config['force'] : array ();
+		$this->allowedPaths = array_merge($globalAllowed, $myAllowed);
+		$this->forcedPaths = array_merge($globalForced, $myForced);
 
 		parent::__construct();
 	}
@@ -60,7 +65,7 @@ class MultiDomainDomain extends Object {
 	 * @return string
 	 */
 	public function getHostname() {
-		return $this->hostname;
+		return defined($this->hostname) ? constant($this->hostname) : $this->hostname;
 	}
 
 	/**
@@ -152,7 +157,7 @@ class MultiDomainDomain extends Object {
 	 * @param  string  $url 
 	 * @return boolean      
 	 */
-	protected function isAllowedPath($url) {
+	protected function isAllowedPath($url) {		
 		return self::match_url($url, $this->allowedPaths);
 	}
 

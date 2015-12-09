@@ -56,6 +56,23 @@ MultiDomain:
 ```
 In the above example, any URL beginning with `admin/`, `Security/` or matching `my-custom-webhook/` will resolve on any domain.
 
+### Global whitelists
+
+You can put your `allow` node directly under `MultiDomain` to have a global whitelist.
+
+```yml
+---
+Name: mymultidomain
+After: '#multidomain'
+---
+MultiDomain:
+  allow:
+    - 'admin/*'
+    - 'Security/*'
+    - 'my-custom-webhook/'
+```
+
+
 ### Forcing URLs to specific domains
 
 Sometimes, you may have a page that sits outside the node representing a domain, but you still want it to be considered part of that domain. For this, you can use the `force` option.
@@ -77,6 +94,31 @@ MultiDomain:
 ```
 In the above configuration, the page `buy-now` can live in the site root, but the URL `example-store.com/buy-now`
 will nonetheless resolve the page, even though the page isn't under `shop/store`.
+
+## Using environment variables
+
+If you have multiple test environments, it may not make sense for you to hard code the host name in the config. Alternatively, you can define an environment variable, i.e. a constant, and refer to it as a string in the config.
+
+
+```yml
+---
+Name: mymultidomain
+After: '#multidomain'
+Only:
+  environment: 'test'
+---
+MultiDomain:
+  domains:
+    primary:
+      hostname: STAGING_PRIMARY_HOSTNAME
+    store:
+      hostname: STAGING_STORE_HOSTNAME
+      resolves_to: 'shop/store'
+      force:
+        'buy-now/*'
+```
+
+This way, every environment can declare its hostname independently.
 
 ## Why not subsites?
 
