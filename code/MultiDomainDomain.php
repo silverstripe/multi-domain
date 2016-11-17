@@ -138,7 +138,7 @@ class MultiDomainDomain extends Object {
 
 	/**
 	 * Return true if this domain contains the given URL
-	 * @param  strin  $url
+	 * @param  string  $url
 	 * @return boolean
 	 */
 	public function hasURL($url) {
