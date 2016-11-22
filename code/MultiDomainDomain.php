@@ -85,13 +85,17 @@ class MultiDomainDomain extends Object {
 			return false;
 		}
 
-		$current_host = $_SERVER['SERVER_NAME'];
+		$currentHost = $_SERVER['HTTP_HOST'];
+		if (strpos(':', $currentHost) !== false) {
+			list($currentHost, $currentPort) = explode(':', $currentHost, 2);
+		}
+
 		$allow_subdomains = MultiDomain::config()->allow_subdomains;
 		$hostname = $this->getHostname();
 
 		return $allow_subdomains ?
-					preg_match('/(\.|^)'.$hostname.'$/', $current_host) :
-					($current_host == $hostname);
+					preg_match('/(\.|^)'.$hostname.'$/', $currentHost) :
+					($currentHost == $hostname);
 	}
 
 	/**
