@@ -85,13 +85,17 @@ class MultiDomainDomain extends Object {
 			return false;
 		}
 
-		$current_host = $_SERVER['HTTP_HOST'];
+		$currentHost = $_SERVER['HTTP_HOST'];
+		if (strpos(':', $currentHost) !== false) {
+			list($currentHost, $currentPort) = explode(':', $currentHost, 2);
+		}
+
 		$allow_subdomains = MultiDomain::config()->allow_subdomains;
 		$hostname = $this->getHostname();
 
 		return $allow_subdomains ?
-					preg_match('/(\.|^)'.$hostname.'$/', $current_host) :
-					($current_host == $hostname);
+					preg_match('/(\.|^)'.$hostname.'$/', $currentHost) :
+					($currentHost == $hostname);
 	}
 
 	/**
@@ -138,7 +142,7 @@ class MultiDomainDomain extends Object {
 
 	/**
 	 * Return true if this domain contains the given URL
-	 * @param  strin  $url
+	 * @param  string  $url
 	 * @return boolean
 	 */
 	public function hasURL($url) {

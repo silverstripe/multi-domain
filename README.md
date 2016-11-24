@@ -13,7 +13,7 @@ silverstripe/framework:3.1.*
 
 ## Configuration
 
-Each domain is identified by a key. You must define one domain using the `primary` key to mark it as the primary domain. 
+Each domain is identified by a key. You must define one domain using the `primary` key to mark it as the primary domain.
 
 ```yml
 ---
@@ -90,7 +90,7 @@ MultiDomain:
       hostname: 'example-store.com'
       resolves_to: 'shop/store'
       force:
-        'buy-now/*'
+        - 'buy-now/*'
 ```
 In the above configuration, the page `buy-now` can live in the site root, but the URL `example-store.com/buy-now`
 will nonetheless resolve the page, even though the page isn't under `shop/store`.
@@ -115,7 +115,7 @@ MultiDomain:
       hostname: STAGING_STORE_HOSTNAME
       resolves_to: 'shop/store'
       force:
-        'buy-now/*'
+        - 'buy-now/*'
 ```
 
 This way, every environment can declare its hostname independently.
@@ -129,4 +129,3 @@ Subsites creates a parallel CMS instance for a given domain name. This module al
 That works to create a vanity URL for one page, but as soon as you go deeper into the hierarchy, you return to the native URL. A more robust solution is required for persisting the vanity URLs.
 
 Further, this module is more extensible, allowing for collaboration with other URL-hungry modules, such as Translatable or Fluent.
-
