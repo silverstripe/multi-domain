@@ -20,15 +20,15 @@ class MultiDomain extends Object {
 	 * /company/ -> silverstripe.com
 	 * /company/partners -> silverstripe.com
 	 * /community/forum -> silverstripe.org
-	 * 
+	 *
 	 * @param  string $url
 	 * @return MultiDomainDomain
 	 */
-	public static function domain_for_url($url) {		
+	public static function domain_for_url($url) {
 		$url = trim($url, '/');
-		
+
 		foreach(self::get_all_domains() as $domain) {
-			if($domain->hasURL($url)) {				
+			if($domain->hasURL($url)) {
 				return $domain;
 			}
 		}
@@ -38,13 +38,13 @@ class MultiDomain extends Object {
 
 	/**
 	 * Gets all the domains that have been configured
-	 * 		
+	 *
 	 * @param  boolean $includePrimary If true, include the primary domain
 	 * @return array
 	 */
 	public static function get_all_domains($includePrimary = false) {
 		$domains = array ();
-		
+
 		foreach(self::config()->domains as $key => $config) {
 			if(!$includePrimary && $key === self::KEY_PRIMARY) continue;
 			$domains[] = MultiDomainDomain::create($key, $config);
@@ -52,10 +52,10 @@ class MultiDomain extends Object {
 
 		return $domains;
 	}
-	
+
 	/**
 	 * Gets the domain marked as "primary"
-	 * @return MultiDomain
+	 * @return MultiDomainDomain
 	 */
 	public static function get_primary_domain() {
 		return self::get_domain(self::KEY_PRIMARY);
@@ -63,7 +63,7 @@ class MultiDomain extends Object {
 
 	/**
 	 * Gets a domain by its key, e.g. 'org','com'
-	 * @param  string $domain 
+	 * @param  string $domain
 	 * @return MultiDomainDomain
 	 */
 	public static function get_domain($domain) {
@@ -71,7 +71,7 @@ class MultiDomain extends Object {
 			return MultiDomainDomain::create(
 				$domain,
 				self::config()->domains[$domain]
-			);				
+			);
 		}
 	}
 }

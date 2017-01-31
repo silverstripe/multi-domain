@@ -40,6 +40,20 @@ class MultiDomainDomain extends Object {
 	 */
 	protected $forcedPaths;
 
+    /**
+     * The request URI
+     *
+     * @var string
+     */
+    protected $requestUri;
+
+    /**
+     * The request HTTP HOST
+     *
+     * @var string
+     */
+    protected $httpHost;
+
 	/**
 	 * Constructor. Takes a key for the domain and its array of settings from the config
 	 * @param string $key
@@ -81,11 +95,11 @@ class MultiDomainDomain extends Object {
 	 * @return boolean
 	 */
 	public function isActive() {
-		if($this->isAllowedPath($_SERVER['REQUEST_URI'])) {
+		if($this->isAllowedPath($this->getRequestUri())) {
 			return false;
 		}
 
-		$currentHost = $_SERVER['HTTP_HOST'];
+		$currentHost = $this->getHttpHost();
 		if (strpos(':', $currentHost) !== false) {
 			list($currentHost, $currentPort) = explode(':', $currentHost, 2);
 		}
@@ -94,7 +108,7 @@ class MultiDomainDomain extends Object {
 		$hostname = $this->getHostname();
 
 		return $allow_subdomains ?
-					preg_match('/(\.|^)'.$hostname.'$/', $currentHost) :
+					(bool) preg_match('/(\.|^)'.$hostname.'$/', $currentHost) :
 					($currentHost == $hostname);
 	}
 
@@ -137,7 +151,8 @@ class MultiDomainDomain extends Object {
 			return $url;
 		}
 
-		return preg_replace('/^\/?'.$this->getURL().'\//', '', $url);
+        $domainUrl = str_replace('/', '\/', $this->getURL());
+		return preg_replace('/^\/?' . $domainUrl . '\//', '', $url);
 	}
 
 	/**
@@ -154,6 +169,60 @@ class MultiDomainDomain extends Object {
 
 		return false;
 	}
+
+    /**
+     * Returns the key/identifier for this domain
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * Set the request URI
+     *
+     * @param  string $requestUri
+     * @return $this
+     */
+    public function setRequestUri($requestUri)
+    {
+        $this->requestUri = (string) $requestUri;
+        return $this;
+    }
+
+    /**
+     * Return the current request URI, defaulting to retrieving it from the $_SERVER superglobal
+     *
+     * @return string
+     */
+    public function getRequestUri()
+    {
+        return $this->requestUri ?: $_SERVER['REQUEST_URI'];
+    }
+
+    /**
+     * Set the HTTP host in the request
+     *
+     * @param  string $httpHost
+     * @return $this
+     */
+    public function setHttpHost($httpHost)
+    {
+        $this->httpHost = (string) $httpHost;
+        return $this;
+    }
+
+    /**
+     * Return the current HTTP host, defaulting to retrieving it from the $_SERVER superglobal
+     *
+     * @return string
+     */
+    public function getHttpHost()
+    {
+        return $this->httpHost ?: $_SERVER['HTTP_HOST'];
+    }
 
 	/**
 	 * Checks a given list of wildcard patterns to see if a path is allowed

@@ -11,5 +11,8 @@
 			"homepage": "http://leftandmain.com",
 			"email" : "aaron@silverstripe.com"
 		}
-	]
+	],
+    "require": {
+        "silverstripe/framework": "^3.1"
+    }
 }

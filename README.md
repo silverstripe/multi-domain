@@ -8,7 +8,7 @@ Allows multiple domains to access one CMS instance, mapping them to different se
 
 ## Requirements
 
-silverstripe/framework:3.1.*
+* silverstripe/framework ^3.1
 
 
 ## Configuration
