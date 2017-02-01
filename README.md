@@ -1,4 +1,7 @@
 # Multi Domains for SilverStripe
+
+[![Build Status](https://travis-ci.org/silverstripe/multi-domain.svg?branch=master)](https://travis-ci.org/silverstripe/multi-domain) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/silverstripe/multi-domain/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/silverstripe/multi-domain/?branch=master)
+
 Allows multiple domains to access one CMS instance, mapping them to different sections of the hierarchy, which allows for vanity URLs. Examples:
 
 * `example.com` -> resolves to home page
