@@ -1,18 +1,29 @@
 {
-	"name":"silverstripe/multi-domain",
-	"type": "silverstripe-module",
-	"description": "Allows multiple domains to access one CMS instance, mapping them to different sections of the hierarchy",
-	"keywords": ["silverstripe"],
-	"license": "BSD-3-Clause",
-	"homepage": "https://github.com/silverstripe/silverstripe-multi-domain/",
-	"authors":[
-		{
-			"name": "Aaron Carlino",
-			"homepage": "http://leftandmain.com",
-			"email" : "aaron@silverstripe.com"
-		}
-	],
+    "name":"silverstripe/multi-domain",
+    "type": "silverstripe-module",
+    "description": "Allows multiple domains to access one CMS instance, mapping them to different sections of the hierarchy",
+    "keywords": ["silverstripe"],
+    "license": "BSD-3-Clause",
+    "homepage": "https://github.com/silverstripe/silverstripe-multi-domain/",
+    "authors":[
+        {
+            "name": "Aaron Carlino",
+            "homepage": "http://leftandmain.com",
+            "email" : "aaron@silverstripe.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SilverStripe\\MultiDomain\\": "src/",
+            "SilverStripe\\MultiDomain\\Tests\\": "tests/"
+        }
+    },
     "require": {
-        "silverstripe/framework": "^3.1"
+        "silverstripe/framework": "^4.0@dev"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
     }
 }

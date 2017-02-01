@@ -1,0 +1,6 @@
+mappings:
+  MultiDomain: SilverStripe\MultiDomain\MultiDomain
+  MultiDomainDomain: SilverStripe\MultiDomain\MultiDomainDomain
+  MultiDomainRequestFilter: SilverStripe\MultiDomain\MultiDomainRequestFilter
+  MultiDomainDomainTest: SilverStripe\MultiDomain\Tests\MultiDomainDomainTest
+  MultiDomainTest: SilverStripe\MultiDomain\Tests\MultiDomainTest

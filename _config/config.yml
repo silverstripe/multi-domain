@@ -1,10 +1,13 @@
 ---
 Name: multidomain
 ---
-Injector:
-  RequestProcessor:
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\Control\RequestProcessor:
     properties:
       filters:
         - '%$MultiDomainRequestFilter'
-MultiDomain:
+  MultiDomainRequestFilter:
+    class: SilverStripe\MultiDomain\MultiDomainRequestFilter;
+
+SilverStripe\MultiDomain\MultiDomain:
   allow_subdomains: false

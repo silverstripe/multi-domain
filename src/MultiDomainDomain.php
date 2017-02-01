@@ -1,5 +1,13 @@
 <?php
 
+namespace SilverStripe\MultiDomain;
+
+use Exception;
+use SilverStripe\Control\Controller;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Object;
+use SilverStripe\MultiDomain\MultiDomain;
+
 /**
  * Class definition for an object representing a configured domain
  *
@@ -8,7 +16,6 @@
  */
 class MultiDomainDomain extends Object
 {
-
     /**
      * The hostname of the domain, e.g. silverstripe.org
      * @var string
@@ -66,8 +73,8 @@ class MultiDomainDomain extends Object
         $this->hostname = $config['hostname'];
         $this->url = isset($config['resolves_to']) ? $config['resolves_to'] : null;
 
-        $globalAllowed = (array) Config::inst()->get('MultiDomain', 'allow');
-        $globalForced = (array) Config::inst()->get('MultiDomain', 'force');
+        $globalAllowed = (array) Config::inst()->get(MultiDomain::class, 'allow');
+        $globalForced = (array) Config::inst()->get(MultiDomain::class, 'force');
         $myAllowed = isset($config['allow']) ? $config['allow'] : array ();
         $myForced = isset($config['force']) ? $config['force'] : array ();
         $this->allowedPaths = array_merge($globalAllowed, $myAllowed);
@@ -112,9 +119,9 @@ class MultiDomainDomain extends Object
         $allow_subdomains = MultiDomain::config()->allow_subdomains;
         $hostname = $this->getHostname();
 
-        return $allow_subdomains ?
-                    (bool) preg_match('/(\.|^)'.$hostname.'$/', $currentHost) :
-                    ($currentHost == $hostname);
+        return $allow_subdomains
+            ? (bool) preg_match('/(\.|^)'.$hostname.'$/', $currentHost)
+            : ($currentHost == $hostname);
     }
 
     /**
