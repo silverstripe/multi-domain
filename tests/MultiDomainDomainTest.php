@@ -1,5 +1,11 @@
 <?php
 
+namespace SilverStripe\MultiDomain\Tests;
+
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\MultiDomain\MultiDomain;
+
 class MultiDomainDomainTest extends SapphireTest
 {
     /**
@@ -12,8 +18,8 @@ class MultiDomainDomainTest extends SapphireTest
         parent::setUp();
         Config::nest();
 
-        Config::inst()->remove('MultiDomain', 'domains');
-        Config::inst()->update('MultiDomain', 'domains', array(
+        Config::inst()->remove(MultiDomain::class, 'domains');
+        Config::inst()->update(MultiDomain::class, 'domains', array(
             'primary' => array(
                 'hostname' => 'example.com'
             ),
@@ -89,7 +95,7 @@ class MultiDomainDomainTest extends SapphireTest
      */
     public function testSubdomainsAllowedInIsActiveWhenConfigured()
     {
-        Config::inst()->update('MultiDomain', 'allow_subdomains', true);
+        Config::inst()->update(MultiDomain::class, 'allow_subdomains', true);
 
         $domain = MultiDomain::get_domain('store')
             ->setRequestUri('/some/page')

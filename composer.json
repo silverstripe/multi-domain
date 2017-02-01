@@ -12,7 +12,13 @@
 			"email" : "aaron@silverstripe.com"
 		}
 	],
+    "autoload": {
+        "psr-4": {
+            "SilverStripe\\MultiDomain\\": "src/",
+            "SilverStripe\\MultiDomain\\Tests\\": "tests/"
+        }
+    },
     "require": {
-        "silverstripe/framework": "^3.1"
+        "silverstripe/framework": "^4.0@dev"
     }
 }

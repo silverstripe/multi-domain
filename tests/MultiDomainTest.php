@@ -1,5 +1,12 @@
 <?php
 
+namespace SilverStripe\MultiDomain\Tests;
+
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\MultiDomain\MultiDomain;
+use SilverStripe\MultiDomain\MultiDomainDomain;
+
 class MultiDomainTest extends SapphireTest
 {
     /**
@@ -12,8 +19,8 @@ class MultiDomainTest extends SapphireTest
         parent::setUp();
         Config::nest();
 
-        Config::inst()->remove('MultiDomain', 'domains');
-        Config::inst()->update('MultiDomain', 'domains', array(
+        Config::inst()->remove(MultiDomain::class, 'domains');
+        Config::inst()->update(MultiDomain::class, 'domains', array(
             'primary' => array(
                 'hostname' => 'foo.bar',
                 'resolves_to' => 'bar.baz'

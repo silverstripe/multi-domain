@@ -1,5 +1,10 @@
 <?php
 
+namespace SilverStripe\MultiDomain;
+
+use SilverStripe\Core\Object;
+use SilverStripe\MultiDomain\MultiDomainDomain;
+
 /**
  * A utility class that provides several static methods for parsing URLs
  * and resolving hostnames.
@@ -9,9 +14,10 @@
  */
 class MultiDomain extends Object
 {
-
     /**
      * The key for the "primary" domain
+     *
+     * @var string
      */
     const KEY_PRIMARY = 'primary';
 

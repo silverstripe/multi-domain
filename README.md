@@ -8,7 +8,7 @@ Allows multiple domains to access one CMS instance, mapping them to different se
 
 ## Requirements
 
-* silverstripe/framework ^3.1
+* silverstripe/framework ^4.0
 
 
 ## Configuration
@@ -20,7 +20,7 @@ Each domain is identified by a key. You must define one domain using the `primar
 Name: mymultidomain
 After: '#multidomain'
 ---
-MultiDomain:
+SilverStripe\MultiDomain\MultiDomain:
   domains:
     primary:
       hostname: 'example.com'
@@ -42,7 +42,7 @@ Sometimes you may have routes that should resolve normally, and bypass the multi
 Name: mymultidomain
 After: '#multidomain'
 ---
-MultiDomain:
+SilverStripe\MultiDomain\MultiDomain:
   domains:
     primary:
       hostname: 'example.com'
@@ -65,7 +65,7 @@ You can put your `allow` node directly under `MultiDomain` to have a global whit
 Name: mymultidomain
 After: '#multidomain'
 ---
-MultiDomain:
+SilverStripe\MultiDomain\MultiDomain:
   allow:
     - 'admin/*'
     - 'Security/*'
@@ -82,7 +82,7 @@ Sometimes, you may have a page that sits outside the node representing a domain,
 Name: mymultidomain
 After: '#multidomain'
 ---
-MultiDomain:
+SilverStripe\MultiDomain\MultiDomain:
   domains:
     primary:
       hostname: 'example.com'
@@ -107,7 +107,7 @@ After: '#multidomain'
 Only:
   environment: 'test'
 ---
-MultiDomain:
+SilverStripe\MultiDomain\MultiDomain:
   domains:
     primary:
       hostname: STAGING_PRIMARY_HOSTNAME
