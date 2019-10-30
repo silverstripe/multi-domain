@@ -6,7 +6,7 @@
  * @package  silverstripe-multi-domain
  * @author  Aaron Carlino <aaron@silverstripe.com>
  */
-class MultiDomainDomain extends Object
+class MultiDomainDomain extends SS_Object
 {
 
     /**
